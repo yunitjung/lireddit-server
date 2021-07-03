@@ -9,10 +9,10 @@ export default  {
         pattern: /^[\w-]+\d+\.[tj]s$/, // regex pattern for the migration files
     },
     entities: [Post],    
-    dbName: "lireddit",
-    user: "homestead",
-    password: "secret",
-    host: "192.168.10.10",
+    dbName: "lireddit_server",
+    user: "yunitjung",
+    password: "letmein!",
+    host: "127.0.0.1",
     type: "postgresql",
     debug: !__prod__,
 } as Parameters<typeof MikroORM.init>[0];

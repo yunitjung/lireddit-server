@@ -9,6 +9,10 @@ import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
 
+import redis from 'redis';
+import session from 'express-session';
+import connectRedis from 'connect-redis';
+
 const main = async () => {
     const orm =  await MikroORM.init(microConfig);
 
@@ -16,6 +20,28 @@ const main = async () => {
     await orm.getMigrator().up();
 
     const app = express();
+
+    const RedisStore = connectRedis(session)
+    const redisClient = redis.createClient()
+
+    app.use(
+        session({
+            name: 'qid',
+            store: new RedisStore({
+                 client: redisClient,
+                 disableTouch: true
+            }),
+            cookie: {
+                maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+                httpOnly: true,
+                sameSite: 'lax', //csrf
+                secure: __prod__ //cookie only works in https
+            },
+            saveUninitialized: false, 
+            secret: 'testrandstring',
+            resave: false,
+        })
+    )
 
     // create apollo server to create schema 
     const apolloServer = new ApolloServer({
@@ -25,7 +51,7 @@ const main = async () => {
             validate: false
         }),
         // context is obj that accessible to all resolvers
-        context: () => ({ em: orm.em })
+        context: ({req, res}) => ({ em: orm.em, req, res })
     })
 
     // create graphql endpoint for apollo server 

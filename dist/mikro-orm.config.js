@@ -4,14 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("./constants");
-const Posts_1 = require("./entities/Posts");
+const Post_1 = require("./entities/Post");
 const path_1 = __importDefault(require("path"));
+const User_1 = require("./entities/User");
 exports.default = {
     migrations: {
         path: path_1.default.join(__dirname, './migrations'),
         pattern: /^[\w-]+\d+\.[tj]s$/,
     },
-    entities: [Posts_1.Post],
+    entities: [Post_1.Post, User_1.User],
     dbName: "lireddit_server",
     user: "yunitjung",
     password: "letmein!",

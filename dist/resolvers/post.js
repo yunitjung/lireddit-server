@@ -22,25 +22,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostResolver = void 0;
-const Posts_1 = require("../entities/Posts");
+const Post_1 = require("../entities/Post");
 const type_graphql_1 = require("type-graphql");
 let PostResolver = class PostResolver {
     posts({ em }) {
-        return em.find(Posts_1.Post, {});
+        return em.find(Post_1.Post, {});
     }
     post(id, { em }) {
-        return em.findOne(Posts_1.Post, { id });
+        return em.findOne(Post_1.Post, { id });
     }
     createPost(title, { em }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const post = em.create(Posts_1.Post, { title });
+            const post = em.create(Post_1.Post, { title });
             yield em.persistAndFlush(post);
             return post;
         });
     }
     updatePost(id, title, { em }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const post = yield em.findOne(Posts_1.Post, { id });
+            const post = yield em.findOne(Post_1.Post, { id });
             if (!post) {
                 return null;
             }
@@ -53,20 +53,20 @@ let PostResolver = class PostResolver {
     }
     deletePost(id, { em }) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield em.nativeDelete(Posts_1.Post, { id });
+            yield em.nativeDelete(Post_1.Post, { id });
             return true;
         });
     }
 };
 __decorate([
-    type_graphql_1.Query(() => [Posts_1.Post]),
+    type_graphql_1.Query(() => [Post_1.Post]),
     __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "posts", null);
 __decorate([
-    type_graphql_1.Query(() => Posts_1.Post, { nullable: true }),
+    type_graphql_1.Query(() => Post_1.Post, { nullable: true }),
     __param(0, type_graphql_1.Arg('id', () => type_graphql_1.Int)),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
@@ -74,7 +74,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "post", null);
 __decorate([
-    type_graphql_1.Mutation(() => Posts_1.Post),
+    type_graphql_1.Mutation(() => Post_1.Post),
     __param(0, type_graphql_1.Arg('title')),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
@@ -82,7 +82,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "createPost", null);
 __decorate([
-    type_graphql_1.Mutation(() => Posts_1.Post, { nullable: true }),
+    type_graphql_1.Mutation(() => Post_1.Post, { nullable: true }),
     __param(0, type_graphql_1.Arg('id')),
     __param(1, type_graphql_1.Arg('title', () => String, { nullable: true })),
     __param(2, type_graphql_1.Ctx()),
